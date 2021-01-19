@@ -1,3 +1,6 @@
+/**
+ * Created by Apanasenkov Aleksandr 19.01.2021.
+ */
 public virtual class TriggerHandler {
 
     @TestVisible

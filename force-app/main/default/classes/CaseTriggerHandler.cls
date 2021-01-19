@@ -1,3 +1,6 @@
+/**
+ * Created by Apanasenkov Aleksandr 19.01.2021.
+ */
 public with sharing class CaseTriggerHandler extends TriggerHandler{
 
     protected override void afterInsert(){
