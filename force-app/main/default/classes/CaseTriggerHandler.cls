@@ -17,18 +17,18 @@ public with sharing class CaseTriggerHandler extends TriggerHandler{
     }
 
     private void countCasesOnContact(List<Case> newCases) {
-        Set<Id> relatedContactIdsList = new Set<Id>();
+        Set<Id> relatedContactIdsSet = new Set<Id>();
         List<Contact> existContactsList;
         List<Contact> contactsToUpdateList = new List<Contact>();
 
         for (Case cs : newCases) {
             if (String.isNotEmpty(cs.ContactId)) {
-                relatedContactIdsList.add(cs.ContactId);
+                relatedContactIdsSet.add(cs.ContactId);
             }
         }
 
-        if (!relatedContactIdsList.isEmpty()) {
-            existContactsList = [SELECT Id, (SELECT Id, IsClosed FROM Cases) FROM Contact WHERE Id IN :relatedContactIdsList];
+        if (!relatedContactIdsSet.isEmpty()) {
+            existContactsList = [SELECT Id, (SELECT Id, IsClosed FROM Cases) FROM Contact WHERE Id IN :relatedContactIdsSet];
 
             for (Contact ct : existContactsList) {
                 Contact contact = new Contact(Id = ct.Id);
