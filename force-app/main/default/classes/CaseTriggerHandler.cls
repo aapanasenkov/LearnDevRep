@@ -29,28 +29,28 @@ public with sharing class CaseTriggerHandler extends TriggerHandler{
 
         if (!relatedContactIdsList.isEmpty()) {
             existContactsList = [SELECT Id, (SELECT Id, IsClosed FROM Cases) FROM Contact WHERE Id IN :relatedContactIdsList];
-        }
 
-        for (Contact ct : existContactsList) {
-            Contact contact = new Contact(Id = ct.Id);
-            List<Case> openCases = new List<Case>();
-            List<Case> closeCases = new List<Case>();
-
-            for (Case cs : ct.Cases) {
-                if (!cs.IsClosed) {
-                    openCases.add(cs);
-                } else {
-                    closeCases.add(cs);
+            for (Contact ct : existContactsList) {
+                Contact contact = new Contact(Id = ct.Id);
+                List<Case> openCases = new List<Case>();
+                List<Case> closeCases = new List<Case>();
+    
+                for (Case cs : ct.Cases) {
+                    if (!cs.IsClosed) {
+                        openCases.add(cs);
+                    } else {
+                        closeCases.add(cs);
+                    }
                 }
+    
+                contact.Open_Cases__c = openCases.size();
+                contact.Close_Cases__c = closeCases.size();
+                contactsToUpdateList.add(contact);
             }
-
-            contact.Open_Cases__c = openCases.size();
-            contact.Close_Cases__c = closeCases.size();
-            contactsToUpdateList.add(contact);
-        }
-
-        if (!contactsToUpdateList.isEmpty()){
-            update contactsToUpdateList;
+    
+            if (!contactsToUpdateList.isEmpty()){
+                update contactsToUpdateList;
+            }
         }
     }
 }
