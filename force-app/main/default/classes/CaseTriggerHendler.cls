@@ -5,7 +5,7 @@ public with sharing class CaseTriggerHendler {
 
     public static void afterUpdateHandler(Map<Id, Case> oldCases, Map<Id, Case> newCases) {
         List<Case> modifiedCases = new List<Case>();
-        
+
         for (Id caseId : newCases.keySet()) {
             Case newCase = newCases.get(caseId);
             Case oldCase = oldCases.get(caseId);
@@ -14,7 +14,9 @@ public with sharing class CaseTriggerHendler {
             }
         }
 
-        countCasesOnContact(modifiedCases);
+        if (!modifiedCases.isEmpty()){
+            countCasesOnContact(modifiedCases);
+        }
     }
 
     public static void afterDeleteHandler(List<Case> oldCases) {
