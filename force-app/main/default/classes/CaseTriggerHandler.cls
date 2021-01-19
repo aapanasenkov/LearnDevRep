@@ -17,7 +17,7 @@ public with sharing class CaseTriggerHandler extends TriggerHandler{
     }
 
     private void countCasesOnContact(List<Case> newCases) {
-        List<Id> relatedContactIdsList = new List<Id>();
+        Set<Id> relatedContactIdsList = new Set<Id>();
         List<Contact> existContactsList;
         List<Contact> contactsToUpdateList = new List<Contact>();
 
