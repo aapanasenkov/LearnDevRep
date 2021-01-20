@@ -1,7 +1,7 @@
 /**
  * Created by Apanasenkov Aleksandr 20.01.2021.
  */
-public class ContactTableController {
+public with sharing class ContactTableController {
 
     public class ModelSortParams {
 		@AuraEnabled
