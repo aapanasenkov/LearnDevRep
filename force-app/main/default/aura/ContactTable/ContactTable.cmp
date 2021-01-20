@@ -1,0 +1,36 @@
+<!--Created by Apanasenkov Aleksandr 20.01.2021.t-- >
+    
+<aura:component controller="ContactTableController" implements="flexipage:availableForAllPageTypes,force:appHostable">
+     
+    <aura:attribute name="contactsList" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="initialRows" type="Integer" default="30"/>
+    <aura:attribute name="rowsToLoad" type="Integer" default="10"/>
+    <aura:attribute name="totalNumberOfRows" type="Integer" default="10"/>
+    <aura:attribute name="rowNumberOffset" type="Integer" default="0"/>
+    <aura:attribute name="rowsToAdd" type="Integer" default="10"/>
+    <aura:attribute name="currentCount" type="Integer" default="10"/>
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="true"/>
+    <aura:attribute name="isLoading" type="boolean" default="false" />
+     
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" action="{!c.handleLoadingState}" value="{!v.isLoading}" />
+
+    <aura:if isTrue="{!v.isLoading}">
+        <lightning:spinner aura:id="loadingstate" class="slds-is-fixed" variant="brand" alternativeText="Loading..."/>
+    </aura:if>
+    <lightning:datatable columns="{!v.columns}"
+                        data="{!v.contactsList}"
+                        keyField="Id"
+                        rowNumberOffset="0"
+                        onrowaction="{!c.handleRowAction}"
+                        enableInfiniteLoading="true"
+                        sortedBy="{!v.sortedBy}"
+                        sortedDirection="{!v.sortedDirection}"
+                        defaultSortDirection="{!v.defaultSortDirection }"
+                        onsort="{!c.updateColumnSorting}"
+                        onloadmore="{!c.loadMoreData }"/>
+</aura:component>
