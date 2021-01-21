@@ -1,4 +1,4 @@
-<!--Created by Apanasenkov Aleksandr 20.01.2021.t-- >
+<!--Created by Apanasenkov Aleksandr 20.01.2021.-->
     
 <aura:component controller="ContactTableController" implements="flexipage:availableForAllPageTypes,force:appHostable">
      
@@ -30,7 +30,7 @@
                         enableInfiniteLoading="true"
                         sortedBy="{!v.sortedBy}"
                         sortedDirection="{!v.sortedDirection}"
-                        defaultSortDirection="{!v.defaultSortDirection }"
+                        defaultSortDirection="{!v.defaultSortDirection}"
                         onsort="{!c.updateColumnSorting}"
-                        onloadmore="{!c.loadMoreData }"/>
+                        onloadmore="{!c.loadMoreContacts}"/>
 </aura:component>

@@ -15,7 +15,7 @@
 		helper.getContacts(component);
 	},
 	 
-	loadMoreData: function (component, event, helper) {
+	loadMoreContacts: function (component, event, helper) {
 		event.getSource().set("v.isLoading", true);
 		helper.getMoreContacts(component, component.get('v.rowsToLoad')).then($A.getCallback(function (data) {
 			if (component.get('v.contactsList').length == component.get('v.totalNumberOfRows')) {

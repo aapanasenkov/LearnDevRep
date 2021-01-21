@@ -11,7 +11,7 @@ public with sharing class ContactTableController {
 	}
 
 	@AuraEnabled
-	public static List<Contact> obtainContacts(ContactTableController.ModelSortParams sortingOptions, String recordLimit, String recordOffset) {
+	public static List<Contact> obtainContacts(ContactTableController.ModelSortParams sortingOptions, String recordLimit, String currentCount) {
 		String sortedBy;
 		List<String> queryFields = new List<String>{'Id', 'Name', 'Email', 'Birthdate', 'Account.Name'};
 		String query = 'SELECT ' + String.join(queryFields, ',') + ' FROM Contact';
@@ -22,7 +22,7 @@ public with sharing class ContactTableController {
 			query += ' ' + sortingOptions.sortedDirection + ' NULLS LAST';
 		}
 
-		query += ' LIMIT ' + recordLimit + ' OFFSET ' + recordOffset;
+		query += ' LIMIT ' + recordLimit + ' OFFSET ' + currentCount;
 		
 		return Database.query(query);
 	}

@@ -7,7 +7,7 @@
 				sortedDirection: component.get("v.sortedDirection") ? component.get("v.sortedDirection") : ''
 			},
 			recordLimit: component.get("v.initialRows"),
-			recordOffset: component.get("v.rowNumberOffset")
+			currentCount: component.get("v.rowNumberOffset")
 		});
 		component.set("v.isLoading", true);
 		action.setCallback(this, function(response) {
@@ -49,7 +49,7 @@
 	getMoreContacts: function(component , rows) {
 		return new Promise($A.getCallback(function(resolve, reject) {
 			var action = component.get('c.obtainContacts');
-			var recordOffset = component.get("v.currentCount");
+			var currentCount = component.get("v.currentCount");
 			var recordLimit = component.get("v.initialRows");
 			action.setParams({
 				sortingOptions: {
@@ -57,15 +57,15 @@
 					sortedDirection: component.get("v.sortedDirection") ? component.get("v.sortedDirection") : ''
 				},
 				recordLimit: recordLimit,
-				recordOffset: recordOffset 
+				currentCount: currentCount 
 			});
 			action.setCallback(this, function(response) {
 				var state = response.getState();
 				if(state === "SUCCESS"){
 					var resultData = response.getReturnValue();
 					resolve(resultData);
-					recordOffset = recordOffset+recordLimit;
-					component.set("v.currentCount", recordOffset);   
+					currentCount = currentCount + recordLimit;
+					component.set("v.currentCount", currentCount);   
 				}                
 			});
 			$A.enqueueAction(action);
