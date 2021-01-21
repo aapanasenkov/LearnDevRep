@@ -21,7 +21,7 @@ public with sharing class CountCasesPerContactBatchTest {
 	static void countCasesPerContactBatchTest() {
 		Test.startTest();
 		CountCasesPerContactBatch batch = new CountCasesPerContactBatch();
-			Database.executeBatch(batch, 1);
+		Database.executeBatch(batch, 1);
 		Test.stopTest();
 
 		Contact contact = [SELECT Id, Open_Cases__c, Close_Cases__c FROM Contact LIMIT 1];
