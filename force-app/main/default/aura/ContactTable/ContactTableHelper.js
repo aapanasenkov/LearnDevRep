@@ -11,8 +11,7 @@
 		});
 		component.set("v.isLoading", true);
 		action.setCallback(this, function(response) {
-			var state = response.getState();
-			if (state === "SUCCESS" ) {
+			if (response.getState() === "SUCCESS" ) {
 				var resultData = response.getReturnValue();
 				component.set("v.contactsList", this.composeViewData(resultData));
 				component.set("v.currentCount", component.get("v.initialRows"));
@@ -37,8 +36,7 @@
 	getTotalNumberOfContacts : function(component) {
 		var action = component.get("c.getTotalContacts");
 		action.setCallback(this, function(response) {
-			var state = response.getState();
-			if (state === "SUCCESS" ) {
+			if (response.getState() === "SUCCESS" ) {
 				var resultData = response.getReturnValue();
 				component.set("v.totalNumberOfRows", resultData);
 			}
@@ -60,8 +58,7 @@
 				currentCount: currentCount 
 			});
 			action.setCallback(this, function(response) {
-				var state = response.getState();
-				if(state === "SUCCESS"){
+				if(response.getState() === "SUCCESS") {
 					var resultData = response.getReturnValue();
 					resolve(resultData);
 					currentCount = currentCount + recordLimit;
