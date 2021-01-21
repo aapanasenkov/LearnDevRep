@@ -17,7 +17,7 @@
 	 
 	loadMoreContacts: function (component, event, helper) {
 		event.getSource().set("v.isLoading", true);
-		helper.getMoreContacts(component).then($A.getCallback(function (data) {
+		helper.getMoreContacts(component).then((function (data) {
 			if (component.get('v.contactsList').length == component.get('v.totalNumberOfRows')) {
 				component.set('v.enableInfiniteLoading', false);
 			} else {

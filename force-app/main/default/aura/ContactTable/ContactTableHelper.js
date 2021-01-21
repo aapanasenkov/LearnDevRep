@@ -45,7 +45,7 @@
 	},
 	 
 	getMoreContacts: function(component) {
-		return new Promise($A.getCallback(function(resolve, reject) {
+		return new Promise((function(resolve, reject) {
 			var action = component.get('c.obtainContacts');
 			var currentCount = component.get("v.currentCount");
 			var recordLimit = component.get("v.initialRows");
