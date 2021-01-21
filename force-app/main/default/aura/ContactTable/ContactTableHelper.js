@@ -46,7 +46,7 @@
 		$A.enqueueAction(action);
 	},
 	 
-	getMoreContacts: function(component , rows) {
+	getMoreContacts: function(component) {
 		return new Promise($A.getCallback(function(resolve, reject) {
 			var action = component.get('c.obtainContacts');
 			var currentCount = component.get("v.currentCount");
