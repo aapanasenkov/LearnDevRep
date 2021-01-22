@@ -45,7 +45,6 @@ export default class ContactTableLWC extends LightningElement {
             currentCount : currentCount
         })
             .then(contactsList => {
-                debugger
                 this.contactsList = this.composeViewData(contactsList)
                 this.currentCount = this.initialRows
                 this.showSpinner = false;
