@@ -18,7 +18,7 @@ const COLUMNS = [
 			{label: 'Account', fieldName: 'Account', type: 'text', sortable: false},
 			{type: 'action', typeAttributes: { rowActions: ACTIONS } }
 ];
-export default class contactTableLWC extends LightningElement {
+export default class ContactTableLWC extends LightningElement {
     contactsList;
     columns = COLUMNS;
     sortedBy = '';
