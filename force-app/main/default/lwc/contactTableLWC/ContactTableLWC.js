@@ -13,10 +13,10 @@ const ACTIONS = [
 
 const COLUMNS = [
             {label: 'Name', fieldName: NAME_FIELD.fieldApiName, type: 'text', sortable: true},
-			{label: 'Email', fieldName: EMAIL.fieldApiName, type: 'email', sortable: false},
-			{label: 'Birthdate', fieldName: BIRTHDATE.fieldApiName, type: 'date', sortable: true},
-			{label: 'Account', fieldName: 'Account', type: 'text', sortable: false},
-			{type: 'action', typeAttributes: { rowActions: ACTIONS } }
+            {label: 'Email', fieldName: EMAIL.fieldApiName, type: 'email', sortable: false},
+            {label: 'Birthdate', fieldName: BIRTHDATE.fieldApiName, type: 'date', sortable: true},
+            {label: 'Account', fieldName: 'Account', type: 'text', sortable: false},
+            {type: 'action', typeAttributes: { rowActions: ACTIONS } }
 ];
 export default class ContactTableLWC extends LightningElement {
     contactsList;
@@ -55,27 +55,27 @@ export default class ContactTableLWC extends LightningElement {
     }
 
     composeViewData(response) {
-		return response.map((contact) => {
-			return {
-				Id: contact.Id,
-				Name: contact.Name,
-				Email: contact.Email,
-				Birthdate: contact.Birthdate,
-				Account: contact.Account ? contact.Account.Name : '',
-			}
-		});
-	}
+        return response.map((contact) => {
+            return {
+                Id: contact.Id,
+                Name: contact.Name,
+                Email: contact.Email,
+                Birthdate: contact.Birthdate,
+                Account: contact.Account ? contact.Account.Name : '',
+            }
+        });
+    }
 
     showToast(title, message, type) {
-		this.dispatchEvent(
-			new ShowToastEvent({
-				title: title,
-				message: message,
-				variant: type
-			})
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title: title,
+                message: message,
+                variant: type
+            })
         )
         this.showSpinner = false;
-	}
+    }
 
     handleRowAction(event) {
         const actionName = event.detail.action.name;
@@ -102,24 +102,24 @@ export default class ContactTableLWC extends LightningElement {
     }
 
     handleError(error) {
-		let message = 'Unknown error';
+        let message = 'Unknown error';
 
-		if (error.body && error.body.message && error.body.message.length) {
-			message = error.body.message;
-		}
+        if (error.body && error.body.message && error.body.message.length) {
+            message = error.body.message;
+        }
 
-		if (error && error.body && error.body.pageErrors && error.body.pageErrors.length) {
-			message = error.body.pageErrors[0].message;
-		}
+        if (error && error.body && error.body.pageErrors && error.body.pageErrors.length) {
+            message = error.body.pageErrors[0].message;
+        }
 
-		this.showToast("Error", message, 'error');
+        this.showToast("Error", message, 'error');
     }
     
     updateColumnSorting(event) {
         const { fieldName, sortDirection } = event.detail;
         this.sortedBy = fieldName;
         this.sortedDirection = sortDirection;
-		this.connectedCallback();
+        this.connectedCallback();
     }
     
     loadMoreContacts(event) {
