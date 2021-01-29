@@ -1,0 +1,18 @@
+<template>
+    <div style="height: 600px">
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="small"></lightning-spinner>
+        <lightning-datatable
+            key-field="Id"
+            data={contactsList}
+            columns={columns}
+            onrowaction={handleRowAction}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            default-sort-direction={defaultSortDirection}
+            onsort={updateColumnSorting}
+            enable-infinite-loading
+            onloadmore={loadMoreContacts}
+        >
+        </lightning-datatable>
+    </div>
+</template>
