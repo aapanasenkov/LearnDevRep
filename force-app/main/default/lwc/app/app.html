@@ -1,0 +1,19 @@
+<!--Created by Apanasenkov Aleksandr 25.01.2021.-->
+<template>
+    <div style="height: 600px">
+        <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="small"></lightning-spinner>
+        <c-custom-datatable
+            key-field="Id"
+            data={contactsList}
+            columns={columns}
+            onrowaction={handleRowAction}
+            sorted-by={sortedBy}
+            sorted-direction={sortedDirection}
+            default-sort-direction={defaultSortDirection}
+            onsort={updateColumnSorting}
+            enable-infinite-loading={enableInfiniteLoading}
+            onloadmore={loadMoreContacts}
+            load-more-offset="20">
+        </c-custom-datatable>
+    </div>
+</template>
