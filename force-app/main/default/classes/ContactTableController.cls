@@ -13,7 +13,7 @@ public with sharing class ContactTableController {
 	@AuraEnabled
 	public static List<Contact> obtainContacts(ContactTableController.ModelSortParams sortingOptions, String recordLimit, String currentCount) {
 		String sortedBy;
-		List<String> queryFields = new List<String>{'Id', 'Name', 'Email', 'Birthdate', 'Account.Name'};
+		List<String> queryFields = new List<String>{'Id', 'Name', 'Email', 'Birthdate', 'Account.Name, Account.Id, icon__c'};
 		String query = 'SELECT ' + String.join(queryFields, ',') + ' FROM Contact';
 
 		if (String.isNotBlank(sortingOptions.sortedBy) && String.isNotBlank(sortingOptions.sortedDirection)) {
@@ -23,11 +23,10 @@ public with sharing class ContactTableController {
 		}
 
 		query += ' LIMIT ' + recordLimit + ' OFFSET ' + currentCount;
-		
 		return Database.query(query);
 	}
-	 
-	@AuraEnabled
+	
+	@AuraEnabled(cacheable=true)
 	public static Integer getTotalContacts(){
 		return [SELECT Id FROM Contact].size();
 	} 

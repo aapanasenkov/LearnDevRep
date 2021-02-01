@@ -12,10 +12,10 @@ const ACTIONS = [
 ];
 
 const COLUMNS = [
-            {label: 'Name', fieldName: NAME_FIELD.fieldApiName, type: 'text', sortable: true},
+            {label: 'Name', fieldName: 'contactLink', type: 'url', sortable: true, typeAttributes: { label: { fieldName: NAME_FIELD.fieldApiName } }},
             {label: 'Email', fieldName: EMAIL.fieldApiName, type: 'email', sortable: false},
             {label: 'Birthdate', fieldName: BIRTHDATE.fieldApiName, type: 'date', sortable: true},
-            {label: 'Account', fieldName: 'Account', type: 'text', sortable: false},
+            {label: 'Account', fieldName: 'accountLink', type: 'url', sortable: false, typeAttributes: { label: { fieldName: 'Account' } }},
             {label: 'Custom Images', fieldName: 'icon', type: 'icon'},
             {type: 'action', typeAttributes: { rowActions: ACTIONS } }
 ];
@@ -24,12 +24,13 @@ export default class App extends LightningElement {
     contactsList;
     columns = COLUMNS;
     sortedBy = '';
-    sortedDirection = '';
+    sortedDirection = 'asc';
     defaultSortDirection = '';
     initialRows = 30;
     currentCount = 0;
     rowNumberOffset = 0;
     enableInfiniteLoading = true;
+    uploadedrecordsLength;
 
     @track showSpinner = false;
 
@@ -49,6 +50,9 @@ export default class App extends LightningElement {
         })
             .then(contactsList => {
                 this.contactsList = this.composeViewData(contactsList)
+                this.contactsList.length == this.totalNumberOfRows.data ? 
+                                            this.uploadedrecordsLength = this.contactsList.length + ' items' :
+                                            this.uploadedrecordsLength = this.contactsList.length + '+ items';
                 this.currentCount = this.initialRows
                 this.showSpinner = false;
             })
@@ -60,10 +64,11 @@ export default class App extends LightningElement {
     composeViewData(response) {
         return response.map((contact) => {
             return {
-                Id: contact.Id,
+                contactLink: '/' +  contact.Id,
                 Name: contact.Name,
                 Email: contact.Email,
                 Birthdate: contact.Birthdate,
+                accountLink: contact.Account ? '/' + contact.Account.Id : '',
                 Account: contact.Account ? contact.Account.Name : '',
                 icon: contact.icon__c ? contact.icon__c : '',
             }
@@ -94,11 +99,11 @@ export default class App extends LightningElement {
     onDeleteContact(row) {
         this.showSpinner = true;
         deleteContact({
-            contact : {'sobjectType': 'Contact', 'Id': row.Id}
+            contact : {'sobjectType': 'Contact', 'Id': (row.contactLink).substring(1)}
         })
         .then(data => {
+            this.getContactList({sortedBy : this.sortedBy, sortedDirection : this.sortedDirection}, this.contactsList.length, 0);
             this.showToast('Success', 'Contact has been successfully deleted', 'success')
-            this.connectedCallback()
         })
         .catch(error => {
             this.handleError(error)
@@ -120,10 +125,18 @@ export default class App extends LightningElement {
     }
 
     updateColumnSorting(event) {
-        const { fieldName, sortDirection } = event.detail;
+        const { fieldName } = event.detail;
         this.sortedBy = fieldName;
-        this.sortedDirection = sortDirection;
-        this.connectedCallback();
+        if (this.sortedBy === 'contactLink') {
+            this.sortedBy = 'Name';
+        }
+
+        if (this.sortedDirection === 'desc') {
+            this.sortedDirection = 'asc';
+        } else if (this.sortedDirection === 'asc') {
+            this.sortedDirection = 'desc';
+        }
+        this.getContactList({sortedBy : this.sortedBy, sortedDirection : this.sortedDirection}, this.contactsList.length, 0);
     }
 
     loadMoreContacts(event) {
@@ -135,11 +148,12 @@ export default class App extends LightningElement {
             currentCount : this.currentCount
         })
             .then(contactsList => {
-                this.currentCount += this.initialRows;
                 if (this.contactsList.length == this.totalNumberOfRows.data) {
                     this.enableInfiniteLoading = false;
                 } else {
                     this.contactsList = this.contactsList.concat(this.composeViewData(contactsList));
+                    this.contactsList.length == this.totalNumberOfRows.data ? this.uploadedrecordsLength = this.contactsList.length + ' items' : this.uploadedrecordsLength = this.contactsList.length + '+ items';
+                    this.currentCount += this.initialRows;
                 }
                 target.isLoading = false;
             })
