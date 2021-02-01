@@ -2,6 +2,9 @@
 <template>
     <div style="height: 600px">
         <lightning-spinner if:true={showSpinner} alternative-text="Loading" size="small"></lightning-spinner>
+        <div style="background: snow; height: 35px;">
+            <span style="padding: 10px; padding-top: 10px; position: absolute; display: flex;">{uploadedrecordsLength}</span>
+        </div>
         <c-custom-datatable
             key-field="Id"
             data={contactsList}
